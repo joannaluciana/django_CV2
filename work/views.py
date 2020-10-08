@@ -11,11 +11,6 @@ class IndexView(TemplateView):
     extra_context= {
         'title':'Main Page',
     }
-# class ContactView(TemplateView):
-#     template_name='contact.html'
-#     extra_context= {
-#         'title':'Main Page',
-#     }
 
 class ProjectList(ListView):
     model = Project
@@ -45,7 +40,7 @@ def contactView(request):
                 send_mail(subject, message, from_email, ['joanna@wloskowicz.pl'])
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
-            return redirect('success')
+            return redirect('work:success')
     return render(request, "contact.html", {'form': form})
 
 def successView(request):
