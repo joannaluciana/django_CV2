@@ -57,7 +57,7 @@ ROOT_URLCONF = 'CVdjango2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,3 +124,6 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+DEFAULT_FROM_EMAIL = 'joanna@wloskowicz.com'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
