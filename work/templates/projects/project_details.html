@@ -4,7 +4,9 @@
 {% block content %}
 
 <h3> Project details: </h3>
- <p>Autor: <a href="{% url 'work:project-details' project.pk %}">{{ object.category}}</a></p>
+ <p>Title: {{ object.name}}</a></p>
+
+
 <p>{{object.description}}</p>
 <img src="{{object.portfolio}}" alt="Praca {{object.name}}">
 {% endblock %}

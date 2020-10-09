@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'work.apps.WorkConfig',
     'reviews.apps.ReviewsConfig',
+    # 'django_sass',
+
 
 ]
 
