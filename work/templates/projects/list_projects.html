@@ -1,13 +1,13 @@
 
 <h3>Projekty</h3>
 <p>Lista projektów:</p>
-<p>{{ title }}}</p>
+<p>{{ title }}</p>
 <ul>
 
     {% for project in object_list %}
 
     <li>
-        {{ project }}
+       <a href="{% url 'work:project-details' project.pk %}">{{ project }}</a>
     </li>
 
     {% endfor %}

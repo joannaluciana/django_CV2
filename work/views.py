@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse,  HttpResponseRedirect
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 from .models import Project, Category
 from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import render, redirect
 from .forms import ContactForm
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.edit import FormView
+from django.contrib.auth.mixins import AccessMixin
+
 
 class IndexView(TemplateView):
     template_name='index.html'
@@ -18,6 +22,21 @@ class ProjectList(ListView):
     extra_context = {
         'title': 'Wszystkie projekty',
     }
+
+class ProjectDetail(DetailView):
+
+    model = Project
+    template_name = 'projects/project_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'title': f'Project {self.object}',
+        }
+        context.update(kwargs)
+        return super().get_context_data(**context)
+
+
+
 
 
 class CategoryList(ListView):
