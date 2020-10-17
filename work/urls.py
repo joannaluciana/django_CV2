@@ -12,4 +12,6 @@ urlpatterns = [
     path('categories/', views.CategoryList.as_view(), name= 'list-categories'),
     path('contact/', contactView, name='contact'),
     path('success/', successView, name='success'),
+    path('download/', views.DownlView.as_view(), name='downl_file'),
+    path('cover/', views.CoverView.as_view(), name='cover_view'),
     ]

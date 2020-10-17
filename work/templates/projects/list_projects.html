@@ -1,17 +1,27 @@
+{% extends 'base_project.html' %}
+{%load static%}
 
-<h3>Projekty</h3>
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+<h3 class="post-subtitle">Projekty</h3>
 <p>Lista projektów:</p>
-<p>{{ title }}</p>
-<ul>
+<!-- <p>{{ title }}</p> -->
+<ul >
 
     {% for project in object_list %}
 
-    <li>
+    <li >
        <a href="{% url 'work:project-details' project.pk %}">{{ project }}</a>
     </li>
 
     {% endfor %}
 </ul>
+</div>
+</div>
+</div>
+{% endblock %}
 
 
 

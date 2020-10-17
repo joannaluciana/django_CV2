@@ -1,12 +1,15 @@
 {% extends 'base_project.html' %}
-
-
+{%load static%}
 {% block content %}
+<div class="container">
+<h3> Project details </h3>
+<p class="post-meta">Title: {{ object.name}}</p>
 
-<h3> Project details: </h3>
- <p>Title: {{ object.name}}</a></p>
 
-
-<p>{{object.description}}</p>
+ <p class="post-meta">{{object.description}}</p>
 <img src="{{object.portfolio}}" alt="Praca {{object.name}}">
+</div>
+
 {% endblock %}
+
+

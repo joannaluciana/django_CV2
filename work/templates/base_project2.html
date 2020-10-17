@@ -1,0 +1,38 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV &bull; {{title}}</title>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU="
+    crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab:wght@700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="{% static 'work/projects.css' %}">
+</head>
+
+<body>
+    <nav>
+    <h3>PROJECTS</h3>
+    <ul>
+        <li><a href="{% url 'work:index' %}"> Strona główna </a></li>
+        <li><a href="{% url 'work:list-projects' %}"> Projekty </a></li>
+        <li><a href="{% url 'work:list-categories' %}"> Kategorie </a></li>
+        <li><a href="{% url 'work:cover' %}"> List Motywacyjny </a></li>
+        <li><a href="{% url 'work:contact' %}"> Kontakt </a></li>
+    </ul>
+</nav>
+<main>
+    <h1>
+        {{ title }}
+    </h1>
+
+    {% block content %}
+    {% endblock %}
+</main>
+
+</body>
+</html>

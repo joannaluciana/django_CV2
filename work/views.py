@@ -16,11 +16,23 @@ class IndexView(TemplateView):
         'title':'Main Page',
     }
 
+class CoverView(TemplateView):
+    template_name='cover_letter.html'
+    extra_context= {
+        'title':'Cover letter',
+    }
+
+class DownlView(TemplateView):
+    template_name='downl_file.html'
+    extra_context= {
+        'title':'Download CV',
+    }
+
 class ProjectList(ListView):
     model = Project
     template_name = 'projects/list_projects.html'
     extra_context = {
-        'title': 'Wszystkie projekty',
+        'title': 'Projects',
     }
 
 class ProjectDetail(DetailView):
@@ -35,10 +47,6 @@ class ProjectDetail(DetailView):
         context.update(kwargs)
         return super().get_context_data(**context)
 
-
-
-
-
 class CategoryList(ListView):
     model = Category
     template_name = 'projects/list_categories.html'
@@ -46,7 +54,10 @@ class CategoryList(ListView):
         'title': 'Wszystkie kategorie',
     }
 
+
+
 def contactView(request):
+
     if request.method == 'GET':
         form = ContactForm()
     else:

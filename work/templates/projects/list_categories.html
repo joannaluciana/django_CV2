@@ -1,5 +1,11 @@
+{% extends 'base_project.html' %}
+{%load static%}
 
-<h3>Szczegóły kategorii {{ object }}</h3>
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+<h3 class="post-subtitle">Categories</h3>
 <p>{{ object.description }}</p>
 
 <p>Lista prac w kategorii:</p>
@@ -9,9 +15,14 @@
 
     {% for category in object_list %}
 
+
     <li>
         {{ category }}
     </li>
 
     {% endfor %}
 </ul>
+</div>
+</div>
+</div>
+{% endblock %}
