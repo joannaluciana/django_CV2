@@ -1,5 +1,6 @@
 {% extends 'base_project.html' %}
 {%load static%}
+{% load comments %}
 {% block content %}
 <div class="container">
 <h3> Project details </h3>
@@ -7,9 +8,30 @@
 
 
  <p class="post-meta">{{object.description}}</p>
-<img src="{{object.portfolio}}" alt="Praca {{object.name}}">
+<img src="{{object.portfolio.url}}" alt="Praca {{object.name}}">
 </div>
+<h3>Recenzje</h3>
 
+{% if object.review_set.published %}
+    {% for review in object.review_set.published %}
+    <section class="review">
+        <h4>{{ review.title }} )</h4>
+        <p class="details">
+            {{ review.pub_date }} przez {{ review.user.username }}
+        </p>
+        <p>{{ review.content }}</p>
+    </section>
+    {% endfor %}
+{% elif request.user.is_authenticated %}
+<p><a href="{% url 'reviews:add-project-review' object.pk %}">Brak recenzji - dodaj swoją!</a></p>
+{% else %}
+<p>Brak recenzji. <a href="{% url 'login' %}">Zaloguj się</a>, aby dodać swoją!</p>
+{% endif %}
+
+ {% render_comment_list for object %}
+{% render_comment_form for object %}
 {% endblock %}
+
+
 
 
