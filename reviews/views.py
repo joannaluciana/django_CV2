@@ -6,11 +6,11 @@ from django.views.generic.base import View
 from django.urls import reverse_lazy
 
 from work.models import Project
-from .models import Review
+from .models import Reviews
 
 
 class AddReview(LoginRequiredMixin, CreateView):
-    model = Review
+    model = Reviews
     template_name = 'reviews/add.html'
     fields = ['title', 'content']
     success_url = reverse_lazy('reviews:list-reviews')
@@ -67,7 +67,7 @@ class EditReview(LoginRequiredMixin, UpdateView):
 class PublishReview(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         review_id = self.kwargs.get('review_id')
-        review = get_object_or_404(Review, pk=review_id, state='draft', user=request.user)
+        review = get_object_or_404(Reviews, pk=review_id, state='draft', user=request.user)
         review.state = 'in_moderation'
         review.save()
         return redirect('reviews:list-reviews')
@@ -76,7 +76,7 @@ class PublishReview(LoginRequiredMixin, View):
 class UnpublishReview(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         review_id = self.kwargs.get('review_id')
-        review = get_object_or_404(Review, pk=review_id, state='in_moderation', user=request.user)
+        review = get_object_or_404(Reviews, pk=review_id, state='in_moderation', user=request.user)
         review.state = 'draft'
         review.save()
         return redirect('reviews:list-reviews')
@@ -89,4 +89,4 @@ class ListReviews(LoginRequiredMixin, ListView):
     }
 
     def get_queryset(self):
-        return Review.objects.filter(user=self.request.user).order_by('state', 'pub_date')
+        return Reviews.objects.filter(user=self.request.user).order_by('state', 'pub_date')

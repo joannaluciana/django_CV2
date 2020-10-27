@@ -5,6 +5,14 @@
 <div class="container">
 <h3> Project details </h3>
 <p class="post-meta">Title: {{ object.name}}</p>
+{% if request.user.is_authenticated %}
+<p>Oceń książkę!</p>
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Oceń">
+</form>
+{% endif %}
 
 
  <p class="post-meta">{{object.description}}</p>
@@ -14,13 +22,13 @@
 
 {% if object.review_set.published %}
     {% for review in object.review_set.published %}
-    <section class="review">
+
         <h4>{{ review.title }} )</h4>
         <p class="details">
             {{ review.pub_date }} przez {{ review.user.username }}
         </p>
         <p>{{ review.content }}</p>
-    </section>
+
     {% endfor %}
 {% elif request.user.is_authenticated %}
 <p><a href="{% url 'reviews:add-project-review' object.pk %}">Brak recenzji - dodaj swoją!</a></p>
