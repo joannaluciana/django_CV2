@@ -46,11 +46,21 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'work:list-categories' %}">Categories</a>
           </li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'work:cover_view' %}"> List Motywacyjny </a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'work:cover_view' %}"> Cover letter </a></li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'work:contact' %}">Contact</a>
           </li>
-        </ul>
+
+
+
+      {% if request.user.is_authenticated %}
+        <li class="nav-item"> <a class="nav-link" href="{% url 'reviews:list-reviews' %}">Hello, {{ request.user.first_name }}!</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'reviews:list-reviews' %}">Posts </a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Wyloguj</a></li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Zaloguj</a></li>
+        {% endif %}
+      </ul>
       </div>
     </div>
   </nav>

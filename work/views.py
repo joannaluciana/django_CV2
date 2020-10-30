@@ -40,12 +40,25 @@ class ProjectDetail(DetailView):
     model = Project
     template_name = 'projects/project_details.html'
 
-    def get_context_data(self, **kwargs):
-        context = {
-            'title': f'Project {self.object}',
-        }
-        context.update(kwargs)
-        return super().get_context_data(**context)
+    def get_success_url(self):
+        return reverse ('projects:project-details', kwargs={'pk': self.object.pk})
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permision()
+        self.object = self.get_object()
+        # chcemy go uzyc wyzej w get
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.book = self.object
+        self.grade = form.save()
+        return super().form_valid(form)
 
 class CategoryList(ListView):
     model = Category
@@ -75,3 +88,17 @@ def contactView(request):
 
 def successView(request):
     return HttpResponse('Success! Thank you for your message.')
+
+
+def get_context_data (self,**kwargs):
+        context = {'title':f'Project {self.object.name}',
+        # SELECT AVG('grade') AS AVARAGE, COUNT ('grade')
+        # AS COUNT FROM grades WHERE book_id=???
+        # AGREGACJA liczy wprost - ANOTACJA doloaczy funkcje do kazdego obiektu
+        'avg_grades': self.object.grade_set.aggregate(average = Avg('grade'),
+        count = Count('grade')),
+        }
+
+        context.update(kwargs)
+
+        return super().get_context_data(**context)

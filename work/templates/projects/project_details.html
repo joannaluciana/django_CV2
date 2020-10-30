@@ -1,43 +1,48 @@
 {% extends 'base_project.html' %}
 {%load static%}
+{% load crispy_forms_tags %}
 {% load comments %}
 {% block content %}
 <div class="container">
 <h3> Project details </h3>
 <p class="post-meta">Title: {{ object.name}}</p>
 {% if request.user.is_authenticated %}
-<p>Oceń książkę!</p>
-<form method="POST">
+<p>Give You opinion! </p>
+<form method="POST" >
     {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Oceń">
+    {{ form|crispy }}
+
 </form>
 {% endif %}
+<p> Average grades: {{ avg_grades.average|floatformat:2|default:"&mdash;" }} ({{ avg_grades.count }} grades)</p>
 
 
  <p class="post-meta">{{object.description}}</p>
-<img src="{{object.portfolio.url}}" alt="Praca {{object.name}}">
-</div>
-<h3>Recenzje</h3>
+<img src="{{object.portfolio.url}}" alt="Project {{object.name}}">
+
+<h3>Posts</h3>
 
 {% if object.review_set.published %}
     {% for review in object.review_set.published %}
-
+    <div class="container">
         <h4>{{ review.title }} )</h4>
         <p class="details">
-            {{ review.pub_date }} przez {{ review.user.username }}
+            {{ review.pub_date }} by {{ review.user.username }}
         </p>
         <p>{{ review.content }}</p>
+    </div>
 
     {% endfor %}
 {% elif request.user.is_authenticated %}
-<p><a href="{% url 'reviews:add-project-review' object.pk %}">Brak recenzji - dodaj swoją!</a></p>
+<p><a href="{% url 'reviews:add-project-review' object.pk %}">Add your post!</a></p>
 {% else %}
-<p>Brak recenzji. <a href="{% url 'login' %}">Zaloguj się</a>, aby dodać swoją!</p>
+<p>No post yet! <a href="{% url 'login' %}">Please login! :) </a>, to add Yours!</p>
 {% endif %}
 
- {% render_comment_list for object %}
+{% render_comment_list for object %}
 {% render_comment_form for object %}
+
+</div>
 {% endblock %}
 
 

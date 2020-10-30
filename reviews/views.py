@@ -12,12 +12,12 @@ from .models import Reviews
 class AddReview(LoginRequiredMixin, CreateView):
     model = Reviews
     template_name = 'reviews/add.html'
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'grade']
     success_url = reverse_lazy('reviews:list-reviews')
 
     def get_context_data(self, **kwargs):
         context = {
-            'title': f'Dodaj recenzję projektu "{self.project}"',
+            'title': f'Add your opinion "{self.project}"',
         }
         context.update(kwargs)
         return super().get_context_data(**context)
@@ -41,36 +41,36 @@ class AddReview(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class EditReview(LoginRequiredMixin, UpdateView):
-    pk_url_kwarg = 'review_id'
+class EditReview(UpdateView):
+    model = Reviews
+    pk_url_kwarg='review_id'
     template_name = 'reviews/edit.html'
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'grade']
     success_url = reverse_lazy('reviews:list-reviews')
-
-    def get_context_data(self, **kwargs):
-        context = {
-            'title': f'Edytuj recenzję "{self.object.title}" projektu "{self.object.project}"',
-        }
-        context.update(kwargs)
-        return super().get_context_data(**context)
-
-    def get_queryset(self):
-        return Review.objects.filter(user=self.request.user, state='draft')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.project = self.object.project
+        form.instance.book = self.object.book
         form.instance.state = 'draft'
         return super().form_valid(form)
 
-
-class PublishReview(LoginRequiredMixin, View):
+class PublishReview(LoginRequiredMixin,View):
     def post(self, request, *args, **kwargs):
         review_id = self.kwargs.get('review_id')
-        review = get_object_or_404(Reviews, pk=review_id, state='draft', user=request.user)
+        review = get_object_or_404(Review, pk=review_id, state = 'draft', user=request.user)
         review.state = 'in_moderation'
         review.save()
         return redirect('reviews:list-reviews')
+
+
+class ListReviews(ListView):
+    template_name = 'reviews/list.html'
+    extra_context = {
+        'title': 'List of Your posts'
+    }
+
+    def get_queryset(self):
+         return Reviews.objects.filter(user=self.request.user).order_by('state', 'pub_date')
 
 
 class UnpublishReview(LoginRequiredMixin, View):
@@ -85,7 +85,7 @@ class UnpublishReview(LoginRequiredMixin, View):
 class ListReviews(LoginRequiredMixin, ListView):
     template_name = 'reviews/list.html'
     extra_context = {
-        'title': 'Lista Twoich recenzji'
+        'title': 'List of Yours posts'
     }
 
     def get_queryset(self):

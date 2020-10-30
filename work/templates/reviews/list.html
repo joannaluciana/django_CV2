@@ -1,0 +1,30 @@
+{% extends 'base_project.html' %}
+
+{% block content %}
+<div >
+{% if object_list %}
+<p>Twoje recenzje:</p>
+<table>
+    <tr>
+        <th>Recenzja</th>
+        <th>Projekt</th>
+        <th>Status</th>
+        <th>Akcje</th>
+    </tr>
+    {% for review in object_list %}
+    <tr>
+        <td>{{ review.title }}</td>
+        <td>{{ review.project }}</td>
+        <td>{{ review.get_state_display }}</td>
+        <td>
+            {% if review.state == 'draft' %}
+            <a href="{% url 'reviews:edit-project-review' review.project.pk review.pk %}">edytuj</a>
+            {% endif %}
+        </td>
+    {% endfor %}
+</table>
+{% else %}
+<p>Brak zapisanych recenzji.</p>
+{% endif %}
+</div>
+{% endblock %}
