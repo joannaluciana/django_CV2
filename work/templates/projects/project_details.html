@@ -38,9 +38,10 @@
 {% else %}
 <p>No post yet! <a href="{% url 'login' %}">Please login! :) </a>, to add Yours!</p>
 {% endif %}
-
+<div class="container">
 {% render_comment_list for object %}
 {% render_comment_form for object %}
+</div>
 
 </div>
 {% endblock %}
