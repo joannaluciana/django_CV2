@@ -35,9 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_comments',
+    'crispy_forms',
     'work.apps.WorkConfig',
     'reviews.apps.ReviewsConfig',
-    'crispy_forms',
+
 ]
 
 SITE_ID = 1
