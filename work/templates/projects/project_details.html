@@ -7,7 +7,7 @@
 <h3> Project details </h3>
 <p class="post-meta">Title: {{ object.name}}</p>
 {% if request.user.is_authenticated %}
-<p>Give You opinion! </p>
+<p>Give Your opinion! </p>
 <form method="POST" >
     {% csrf_token %}
     {{ form|crispy }}
@@ -18,7 +18,7 @@
 
 
  <p class="post-meta">{{object.description}}</p>
-<img src="{{object.portfolio.url}}" alt="Project {{object.name}}">
+<a href="{{object.web_site}}"><img src="{{object.portfolio.url}}" alt="Project {{object.name}}"></a>
 
 <h3>Posts</h3>
 
